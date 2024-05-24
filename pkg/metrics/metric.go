@@ -6,7 +6,7 @@ import (
 )
 
 type Metric struct {
-	Metric *metrics.Metric
+	metric *metrics.Metric
 }
 
 func New(serviceName string) *Metric {
@@ -15,11 +15,11 @@ func New(serviceName string) *Metric {
 }
 
 func (m *Metric) IncKafkaRequest() {
-	m.Metric.TotalMessageFromKafka.Inc()
+	m.metric.TotalMessageFromKafka.Inc()
 }
 
 func (m *Metric) IncKafkaResponse() {
-	m.Metric.TotalMessageToKafka.Inc()
+	m.metric.TotalMessageToKafka.Inc()
 }
 
 func (m *Metric) DurationTime(err error, start time.Time) {
@@ -28,5 +28,5 @@ func (m *Metric) DurationTime(err error, start time.Time) {
 		msg = err.Error()
 	}
 	since := time.Since(start)
-	m.Metric.TotalMessageValid.WithLabelValues(msg).Observe(since.Seconds())
+	m.metric.TotalMessageValid.WithLabelValues(msg).Observe(since.Seconds())
 }
